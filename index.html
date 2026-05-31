@@ -41,7 +41,7 @@
 
     function render(pageNum){
       const idx = Math.max(1, Math.min(total, pageNum)) - 1;
-      chapterEl.innerHTML = `<h2>Capítulo ${idx+1}</h2><p>${window.chapters[idx]}</p>`;
+      chapterEl.innerHTML = `<h2>Capítulo ${idx+1}</h2>${window.chapters[idx]}`;
       currentEl.textContent = idx+1;
       page = idx+1;
       window.scrollTo(0,0);
@@ -64,3 +64,5 @@
   </script>
 </body>
 </html>
+
+
