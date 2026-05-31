@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>De rodillas ante mi Emperador — Historia</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>De rodillas ante mi Emperador</h1>
+    <p class="subtitle">Una saga en 100 capítulos: el Emperador Felino y el migajero Power</p>
+  </header>
+
+  <main>
+    <nav class="pager">
+      <button id="prev">« Anterior</button>
+      <span>Capítulo <span id="current">1</span> / 100</span>
+      <button id="next">Siguiente »</button>
+    </nav>
+
+    <article id="chapter" class="chapter"></article>
+
+    <nav class="toc" id="toc"></nav>
+  </main>
+
+  <footer>
+    <p>Abre el archivo en tu navegador y usa los botones o la tabla de contenidos para navegar.</p>
+  </footer>
+
+  <script src="chapters.js"></script>
+  <script>
+    const chapterEl = document.getElementById('chapter');
+    const currentEl = document.getElementById('current');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const toc = document.getElementById('toc');
+
+    let page = 1;
+    const total = window.chapters?.length || 100;
+
+    function render(pageNum){
+      const idx = Math.max(1, Math.min(total, pageNum)) - 1;
+      chapterEl.innerHTML = `<h2>Capítulo ${idx+1}</h2><p>${window.chapters[idx]}</p>`;
+      currentEl.textContent = idx+1;
+      page = idx+1;
+      window.scrollTo(0,0);
+    }
+
+    prevBtn.addEventListener('click', ()=> render(page-1));
+    nextBtn.addEventListener('click', ()=> render(page+1));
+
+    for(let i=1;i<=total;i++){
+      const a = document.createElement('button');
+      a.className = 'toc-item';
+      a.textContent = i;
+      a.addEventListener('click',()=> render(i));
+      toc.appendChild(a);
+    }
+
+    const params = new URLSearchParams(location.search);
+    const p = parseInt(params.get('p'));
+    render(p && p>=1 && p<=total ? p : 1);
+  </script>
+</body>
+</html>
